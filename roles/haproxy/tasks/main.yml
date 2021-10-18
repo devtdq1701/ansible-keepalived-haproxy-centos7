@@ -1,0 +1,25 @@
+---
+- name: install haproxy
+  yum: name=haproxy state=latest
+
+- name: config haproxy
+  template:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+# - name: cấu hình rsyslog
+#   shell: |
+#   cat >> /etc/rsyslog.conf <<EOF
+#   \$ModLoad imudp
+#   \$UDPServerRun 514
+#   \$UDPServerAddress 127.0.0.1 #allow only rsyslog on 127.0.0.1 UDP port 514
+#   EOF
+
+# - name: create /etc/rsyslog.d/haproxy.conf
+#   shell: |
+#   cat >> /etc/rsyslog.d/haproxy.conf <<EOF
+#   local0.* /var/log/haproxy.log
+#   EOF
+
+- name: start and enable haproxy
+  service: name=haproxy state=started enabled=yes
